@@ -4,7 +4,6 @@ import {
   Code2, Terminal, Camera, Menu, X, 
   ChevronLeft, ChevronRight, Server, Database, Globe
 } from 'lucide-react';
-// 1. IMPORT FRAMER MOTION
 import { motion } from 'framer-motion';
 
 import fotoProfil from './assets/pasfoto.png';
@@ -18,9 +17,7 @@ import foto2 from './assets/foto2.jpg';
 import foto3 from './assets/foto3.jpg';
 import foto4 from './assets/foto4.jpg';
 
-
 // --- DATA ---
-// Kamu bisa mengubah isi data ini dengan mudah di sini
 const DATA = {
   name: "Muhammad Reza Setiadi",
   title: "Fullstack Developer",
@@ -31,46 +28,16 @@ const DATA = {
     linkedin: "https://linkedin.com",
   },
   techStack: [
-    { 
-      name: "HTML5", 
-      icon: "https://cdn.jsdelivr.net/gh/devicons/devicon/icons/html5/html5-original.svg" 
-    },
-    { 
-      name: "PHP", 
-      icon: "https://cdn.jsdelivr.net/gh/devicons/devicon/icons/php/php-original.svg" 
-    },
-    { 
-      name: "Golang", 
-      icon: "https://cdn.jsdelivr.net/gh/devicons/devicon/icons/go/go-original.svg" 
-    },
-    { 
-      name: "JavaScript", 
-      icon: "https://cdn.jsdelivr.net/gh/devicons/devicon/icons/javascript/javascript-original.svg" 
-    },
-    { 
-      name: "Laravel", 
-      icon: "https://cdn.jsdelivr.net/gh/devicons/devicon/icons/laravel/laravel-original.svg" 
-    },
-    { 
-      name: "Bootstrap", 
-      icon: "https://cdn.jsdelivr.net/gh/devicons/devicon/icons/bootstrap/bootstrap-original.svg" 
-    },
-    { 
-      name: "Tailwind", 
-      icon: "https://cdn.jsdelivr.net/gh/devicons/devicon/icons/tailwindcss/tailwindcss-original.svg" 
-    },
-    { 
-      name: "React", 
-      icon: "https://cdn.jsdelivr.net/gh/devicons/devicon/icons/react/react-original.svg" 
-    },
-    { 
-      name: "MySQL", 
-      icon: "https://cdn.jsdelivr.net/gh/devicons/devicon/icons/mysql/mysql-original.svg" 
-    },
-    { 
-      name: "TypeScript", 
-      icon: "https://cdn.jsdelivr.net/gh/devicons/devicon/icons/typescript/typescript-original.svg" 
-    },
+    { name: "HTML5", icon: "https://cdn.jsdelivr.net/gh/devicons/devicon/icons/html5/html5-original.svg" },
+    { name: "PHP", icon: "https://cdn.jsdelivr.net/gh/devicons/devicon/icons/php/php-original.svg" },
+    { name: "Golang", icon: "https://cdn.jsdelivr.net/gh/devicons/devicon/icons/go/go-original.svg" },
+    { name: "JavaScript", icon: "https://cdn.jsdelivr.net/gh/devicons/devicon/icons/javascript/javascript-original.svg" },
+    { name: "Laravel", icon: "https://cdn.jsdelivr.net/gh/devicons/devicon/icons/laravel/laravel-original.svg" },
+    { name: "Bootstrap", icon: "https://cdn.jsdelivr.net/gh/devicons/devicon/icons/bootstrap/bootstrap-original.svg" },
+    { name: "Tailwind", icon: "https://cdn.jsdelivr.net/gh/devicons/devicon/icons/tailwindcss/tailwindcss-original.svg" },
+    { name: "React", icon: "https://cdn.jsdelivr.net/gh/devicons/devicon/icons/react/react-original.svg" },
+    { name: "MySQL", icon: "https://cdn.jsdelivr.net/gh/devicons/devicon/icons/mysql/mysql-original.svg" },
+    { name: "TypeScript", icon: "https://cdn.jsdelivr.net/gh/devicons/devicon/icons/typescript/typescript-original.svg" },
   ],
   projects: [
     {
@@ -114,38 +81,34 @@ const DATA = {
       link: "#"
     }
   ],
-  photos: [
-    // Gunakan URL sementara atau import foto lain dari assets
-    fotoProfil,
-    foto1,
-    foto2,
-    foto3,
-    foto4
-  ]
+  photos: [fotoProfil, foto1, foto2, foto3, foto4]
 };
 
-// --- COMPONENTS ---
+// --- ANIMATION CONFIG ---
+const smoothTransition = {
+  duration: 0.8,
+  ease: [0.22, 1, 0.36, 1]
+};
 
-// 2. TAMBAHAN KOMPONEN FADE IN (Agar kode rapi)
 const FadeIn = ({ children, delay = 0, className = "" }) => (
   <motion.div
-    initial={{ opacity: 0, y: 50 }}
+    initial={{ opacity: 0, y: 30 }}
     whileInView={{ opacity: 1, y: 0 }}
-    viewport={{ once: true, margin: "-50px" }}
-    transition={{ duration: 0.6, delay: delay, ease: "easeOut" }}
+    viewport={{ once: true, margin: "-100px" }}
+    transition={{ ...smoothTransition, delay: delay }}
     className={className}
   >
     {children}
   </motion.div>
 );
 
-// Komponen Pembungkus agar bisa di-scroll (Carousel Logic)
+// --- MODIFIED HORIZONTAL SCROLL ---
 const HorizontalScroll = ({ children, className = "" }) => {
   const scrollRef = useRef(null);
 
   const scroll = (direction) => {
     if (scrollRef.current) {
-      const scrollAmount = 350; // Jarak scroll
+      const scrollAmount = 350; 
       scrollRef.current.scrollBy({ 
         left: direction === 'left' ? -scrollAmount : scrollAmount, 
         behavior: 'smooth' 
@@ -155,7 +118,6 @@ const HorizontalScroll = ({ children, className = "" }) => {
 
   return (
     <div className="relative group">
-      {/* Tombol Kiri */}
       <button 
         onClick={() => scroll('left')}
         className="absolute left-0 top-1/2 -translate-y-1/2 -ml-4 z-10 p-2 bg-white border border-gray-200 shadow-lg rounded-full opacity-0 group-hover:opacity-100 transition-opacity disabled:opacity-0 hidden md:block"
@@ -163,15 +125,16 @@ const HorizontalScroll = ({ children, className = "" }) => {
         <ChevronLeft size={20} />
       </button>
 
-      {/* Container Scroll */}
       <div 
         ref={scrollRef}
-        className={`flex overflow-x-auto gap-6 pb-8 snap-x snap-mandatory no-scrollbar ${className}`}
+        // PERUBAHAN DI SINI:
+        // 1. overflow-y-hidden: Memastikan tidak ada scroll vertikal di dalam kotak ini.
+        // 2. py-4: Menambah padding atas bawah agar bayangan/hover tidak terpotong.
+        className={`flex overflow-x-auto overflow-y-hidden gap-6 py-4 px-1 pb-12 snap-x snap-mandatory no-scrollbar ${className}`}
       >
         {children}
       </div>
 
-      {/* Tombol Kanan */}
       <button 
         onClick={() => scroll('right')}
         className="absolute right-0 top-1/2 -translate-y-1/2 -mr-4 z-10 p-2 bg-white border border-gray-200 shadow-lg rounded-full opacity-0 group-hover:opacity-100 transition-opacity hidden md:block"
@@ -185,7 +148,6 @@ const HorizontalScroll = ({ children, className = "" }) => {
 const Section = ({ id, title, children, className = "" }) => (
   <section id={id} className={`py-24 px-6 md:px-12 lg:px-24 max-w-7xl mx-auto overflow-hidden ${className}`}>
     {title && (
-      // Bungkus Judul dengan FadeIn
       <FadeIn>
         <div className="flex items-center gap-4 mb-12">
           <h2 className="text-3xl md:text-4xl font-bold tracking-tight">
@@ -244,7 +206,6 @@ const Hero = () => (
     <div className="grid md:grid-cols-2 gap-12 items-center">
       <div className="order-2 md:order-1">
         
-        {/* Bungkus elemen text dengan FadeIn dan delay bertahap */}
         <FadeIn delay={0.1}>
             <span className="text-gray-500 font-medium mb-4 tracking-wider text-sm uppercase block mt-3">Portofolio</span>
         </FadeIn>
@@ -287,7 +248,6 @@ const Hero = () => (
       </div>
       
       <div className="order-1 md:order-2 flex justify-center md:justify-end mt-10 md:mt-0">
-        {/* Bungkus Gambar Profil */}
         <FadeIn delay={0.3}>
             <div className="relative w-64 h-64 md:w-96 md:h-96">
             <div className="absolute inset-0 bg-gray-100 rounded-full scale-105 translate-x-2 translate-y-2 -z-10"></div>
@@ -315,21 +275,19 @@ const TechStack = () => (
 
     <HorizontalScroll>
       {DATA.techStack.map((tech, index) => (
-        // Ganti div jadi motion.div untuk efek muncul 1 per 1 (Staggered)
         <motion.div 
           key={index} 
-          initial={{ opacity: 0, y: 50 }}
+          initial={{ opacity: 0, y: 20 }}
           whileInView={{ opacity: 1, y: 0 }}
           viewport={{ once: true }}
-          transition={{ duration: 0.5, delay: index * 0.1 }} // Delay berdasarkan index
+          transition={{ ...smoothTransition, delay: index * 0.1 }}
           className="flex-shrink-0 w-40 h-40 bg-white border border-gray-100 rounded-xl flex flex-col items-center justify-center gap-4 hover:border-black hover:shadow-lg transition-all snap-start group"
         >
-          {/* Bagian Icon Gambar */}
           <div className="w-16 h-16 flex items-center justify-center p-2 bg-gray-50 rounded-full group-hover:bg-white transition-colors">
             <img 
               src={tech.icon} 
               alt={tech.name} 
-              className="w-full h-full object-contain" // Agar logo tidak gepeng
+              className="w-full h-full object-contain" 
             />
           </div>
           <span className="font-semibold text-sm">{tech.name}</span>
@@ -351,18 +309,14 @@ const Projects = () => (
 
     <HorizontalScroll>
       {DATA.projects.map((project, index) => (
-        // Ganti div jadi motion.div untuk efek muncul 1 per 1
         <motion.div 
           key={project.id} 
-          initial={{ opacity: 0, y: 50 }}
+          initial={{ opacity: 0, y: 30 }}
           whileInView={{ opacity: 1, y: 0 }}
           viewport={{ once: true }}
-          transition={{ duration: 0.6, delay: index * 0.2 }} // Delay lebih lama
-          // Hapus 'flex-col h-full' agar tinggi kartu menyesuaikan isi (tidak maksa panjang)
+          transition={{ ...smoothTransition, delay: index * 0.15 }}
           className="flex-shrink-0 w-80 md:w-96 bg-white rounded-2xl border border-gray-100 shadow-sm hover:shadow-xl transition-all snap-start overflow-hidden"
         >
-          {/* 1. BAGIAN GAMBAR (RASIO MONITOR) */}
-          {/* Menggunakan 'aspect-video' agar gambar proporsional seperti layar laptop (16:9) */}
           <div className="aspect-video w-full overflow-hidden bg-gray-200 relative">
             <img 
               src={project.image} 
@@ -371,20 +325,13 @@ const Projects = () => (
             />
           </div>
 
-          {/* 2. BAGIAN KONTEN (Tanpa Justify-Between) */}
           <div className="p-6">
-            
-            {/* Judul Project (Tetap Hitam) */}
             <h3 className="text-xl font-bold mb-2 text-black">
               {project.title}
             </h3>
-            
-            {/* Deskripsi */}
             <p className="text-gray-600 text-sm leading-relaxed mb-4">
               {project.desc}
             </p>
-            
-            {/* Tech Stack */}
             <div className="flex flex-wrap gap-2 mb-6">
               {project.tech.map((t, i) => (
                 <span key={i} className="text-xs font-semibold px-2 py-1 bg-gray-100 rounded text-gray-600 border border-gray-200">
@@ -392,12 +339,9 @@ const Projects = () => (
                 </span>
               ))}
             </div>
-
-            {/* Tombol Lihat Project (Langsung dibawah stack, tidak dipaling bawah kartu) */}
             <a href={project.link} className="inline-flex items-center gap-2 text-sm font-bold border-b border-black pb-0.5 hover:opacity-60 transition-opacity">
               Lihat Project <ExternalLink size={14} />
             </a>
-
           </div>
         </motion.div>
       ))}
@@ -406,10 +350,8 @@ const Projects = () => (
 );
 
 const Gallery = () => (
-  // Kamu bisa ganti judul "Aktivitas & Galeri" jadi "Life Behind Code" agar lebih keren
   <Section id="gallery" title="Life Behind Code"> 
     
-    {/* --- TAMBAHAN KALIMAT DISINI --- */}
     <FadeIn>
         <p className="text-gray-500 text-lg mb-8 max-w-2xl">
         Momen di balik layar saat membangun solusi digital. Dari eksplorasi teknologi baru hingga berbagi ilmu dengan komunitas.
@@ -417,15 +359,13 @@ const Gallery = () => (
     </FadeIn>
 
     <HorizontalScroll>
-      {/* Menggunakan slice(1) agar foto profil tidak ikut, seperti permintaan sebelumnya */}
       {DATA.photos.slice(1).map((photo, index) => (
-        // Ganti div jadi motion.div
         <motion.div 
           key={index} 
-          initial={{ opacity: 0, x: 50 }} // Muncul dari kanan sedikit
+          initial={{ opacity: 0, x: 20 }}
           whileInView={{ opacity: 1, x: 0 }}
           viewport={{ once: true }}
-          transition={{ duration: 0.6, delay: index * 0.2 }}
+          transition={{ ...smoothTransition, delay: index * 0.15 }}
           className="flex-shrink-0 w-72 md:w-96 aspect-[4/5] bg-gray-200 rounded-2xl overflow-hidden relative group snap-start"
         >
           <img 
@@ -445,7 +385,6 @@ const Gallery = () => (
 );
 
 const Contact = () => {
-  // Variabel untuk mengambil tahun saat ini secara otomatis
   const currentYear = new Date().getFullYear();
 
   return (
@@ -464,7 +403,6 @@ const Contact = () => {
             </p>
         </FadeIn>
         
-        {/* PERBAIKAN UTAMA DI SINI: mailto hanya ditulis SATU KALI */}
         <FadeIn delay={0.3}>
             <a 
             href="mailto:rezasetiadii644@gmail.com?subject=Halo Reza, Saya tertarik untuk kerja sama"
@@ -476,11 +414,9 @@ const Contact = () => {
         </FadeIn>
 
         <div className="mt-20 pt-10 border-t border-gray-100 flex flex-col md:flex-row justify-between items-center gap-6">
-          
           <span className="text-gray-400 text-sm">
             © {currentYear} {DATA.name}. All rights reserved.
           </span>
-          
           <div className="flex gap-6">
             <a href={DATA.social?.github || "#"} className="text-gray-400 hover:text-black transition-colors"><Github size={20} /></a>
             <a href={DATA.social?.linkedin || "#"} className="text-gray-400 hover:text-black transition-colors"><Linkedin size={20} /></a>
