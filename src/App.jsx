@@ -14,7 +14,6 @@ import kepegawaian from './assets/HRSystem.png';
 import spending from './assets/spending.png';
 import foto1 from './assets/foto1.jpg';
 import foto2 from './assets/foto2.jpg';
-import foto3 from './assets/foto3.jpg';
 import foto4 from './assets/foto4.jpg';
 
 // --- DATA ---
@@ -81,7 +80,7 @@ const DATA = {
       link: "#"
     }
   ],
-  photos: [fotoProfil, foto1, foto2, foto3, foto4]
+  photos: [fotoProfil, foto1, foto2, foto4]
 };
 
 // --- ANIMATION CONFIG ---
@@ -231,7 +230,7 @@ const Hero = () => (
         <FadeIn delay={0.5}>
             <div className="flex flex-wrap gap-4">
             <a 
-                href="/CV-rezasetiadi.pdf" 
+                href="/CV_MuhammadRezaSetiadi.pdf" 
                 download 
                 className="flex items-center gap-2 px-6 py-3 bg-black text-white font-medium rounded-full hover:bg-neutral-800 transition-transform active:scale-95"
             >
